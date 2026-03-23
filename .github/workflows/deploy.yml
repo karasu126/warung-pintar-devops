@@ -1,0 +1,32 @@
+name: warung-app-pipeline
+
+on: 
+    push:
+        branches:
+            - main
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: SSH to EC2
+              env:
+                EC2_HOST: ${{ secrets.EC2_HOST }}
+                EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+                EC2_USER: ${{ secrets.EC2_USER }}
+              run: |
+                echo "$EC2_SSH_KEY" > key.pem
+                chmod 600 key.pem
+
+                ssh -i key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cd ~/warung-pintar-devops &&
+                git pull origin main &&
+
+                docker build -t warung-app -f docker/Dockerfile . &&
+
+                docker stop warung-app || true &&
+                docker rm warung-app || true &&
+
+                docker run -d --name warung-app -p 8080:5000 --restart unless-stopped warung-app"
