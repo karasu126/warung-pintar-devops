@@ -35,5 +35,5 @@ jobs:
 
                   docker run -d --name warung-app -p 8080:5000 --restart unless-stopped warung-app:latest &&
                   
-                  echo "$COMMIT_HASH" >> ~/version_history.txt 
+                  echo "$COMMIT_HASH" >> ~/warung-pintar-devops/script/version_history.txt 
                 '
