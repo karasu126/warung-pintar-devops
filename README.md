@@ -181,10 +181,59 @@ Metrics monitored include:
 
 ---
 
+## Rollback Mechanism
+
+## Rollback Mechanism
+
+Each deployment builds a Docker image tagged with the Git commit hash — 
+for example `warung-app:a3f2c9d`. Every successful deployment appends 
+the commit hash to `version_history.txt` on the server, creating a 
+traceable record of all deployed versions.
+
+This makes rollback straightforward: if the latest version has issues, 
+the previous image is still available on the server and can be restored 
+in seconds without rebuilding.
+
+Two scripts are available in the `script/` directory:
+
+| Script | Purpose |
+|---|---|
+| `rollback.sh` | Revert to the previous deployed version |
+| `restore-latest.sh` | Return to the latest version after a rollback |
+
+### How to Use
+
+**Rollback to previous version:**
+```bash
+ssh -i key.pem ubuntu@EC2_HOST "bash ~/warung-pintar-devops/script/rollback.sh"
+```
+
+**Restore to latest version:**
+```bash
+ssh -i key.pem ubuntu@EC2_HOST "bash ~/warung-pintar-devops/script/restore-latest.sh"
+```
+
+### Evidence
+
+App before rollback — latest version running normally:
+![App Before Rollback](documentation/app-before-rollback.png)
+
+After rollback — container reverted to previous version:
+![App After Rollback](documentation/app-after-rollback.png)
+
+After restore — container back to latest version:
+![App After Restore](documentation/app-after-restore.png)
+
+Version history on server:
+![App Version History](documentation/app-version-history.png)
+
+---
+
 ## Improvement Plan
 
-- **Rollback mechanism** — implement versioned Docker image tags so 
-  any deployment can be rolled back to a previous version instantly
+- **Rollback automation** — implement automated rollback triggered by 
+  failed health checks after deployment, removing the need for manual 
+  intervention
 - **Autoscaling** — migrate to AWS Auto Scaling Group to handle 
   unexpected traffic spikes
 - **Image registry** — push Docker images to Docker Hub or AWS ECR 
