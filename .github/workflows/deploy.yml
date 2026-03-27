@@ -24,7 +24,7 @@ jobs:
 
                 ssh -i key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST '
                   cd ~/warung-pintar-devops &&
-                  git pull origin main &&
+                  git pull origin '"${{ github.ref_name }}"' &&
 
                   COMMIT_HASH=$(git rev-parse --short HEAD) &&
 
