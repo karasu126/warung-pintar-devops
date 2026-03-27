@@ -1,7 +1,7 @@
 #!/bin/bash
 # Restore script to deploy the latest commit
 
-LATEST_COMMIT=$(tail -1 ~/version_history.txt)
+LATEST_COMMIT=$(tail -1 ~/warung-pintar-devops/script/version_history.txt)
 
 if [ -z "$LATEST_COMMIT" ]; then
     echo "Error: No commit found in version history"

@@ -4,7 +4,7 @@ myapp  = Flask(__name__)
 
 @myapp.route('/', methods=['GET'])
 def welcome():
-    return 'Hello world, my name is Luqman, this project is a simple flask app. (Testing purpose) This is version 2.0'
+    return 'Hello world, my name is Luqman, this project is a simple flask app. (Testing purpose) This is version 1.0'
 
 @myapp.route('/health', methods=['GET'])
 def health():

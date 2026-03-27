@@ -1,7 +1,7 @@
 #!/bin/bash
 # Rollback script to revert to the previous commit
 
-PREVIOUS_COMMIT=$(tail -2 ~/version_history.txt | head -1)
+PREVIOUS_COMMIT=$(tail -2 ~/warung-pintar-devops/script/version_history.txt | head -1)
 
 if [ -z "$PREVIOUS_COMMIT" ]; then
     echo "Error: No previous commit found in version history"
