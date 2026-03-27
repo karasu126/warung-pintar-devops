@@ -21,12 +21,18 @@ jobs:
                 echo "$EC2_SSH_KEY" > key.pem
                 chmod 600 key.pem
 
-                ssh -i key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "cd ~/warung-pintar-devops &&
-                git pull origin main &&
+                ssh -i key.pem -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST '
+                  cd ~/warung-pintar-devops &&
+                  git pull origin main &&
 
-                docker build -t warung-app -f docker/Dockerfile . &&
+                  COMMIT_HASH=$(git rev-parse --short HEAD) &&
 
-                docker stop warung-app || true &&
-                docker rm warung-app || true &&
+                  docker build -t warung-app:$COMMIT_HASH -t warung-app:latest -f docker/Dockerfile . &&
 
-                docker run -d --name warung-app -p 8080:5000 --restart unless-stopped warung-app"
+                  docker stop warung-app || true &&
+                  docker rm warung-app || true &&
+
+                  docker run -d --name warung-app -p 8080:5000 --restart unless-stopped warung-app:latest &&
+                  
+                  echo "$COMMIT_HASH" >> ~/version_history.txt 
+                '
