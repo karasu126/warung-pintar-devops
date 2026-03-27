@@ -183,8 +183,6 @@ Metrics monitored include:
 
 ## Rollback Mechanism
 
-## Rollback Mechanism
-
 Each deployment builds a Docker image tagged with the Git commit hash — 
 for example `warung-app:a3f2c9d`. Every successful deployment appends 
 the commit hash to `version_history.txt` on the server, creating a 
