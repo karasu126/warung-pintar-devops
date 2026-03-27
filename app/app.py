@@ -4,7 +4,7 @@ myapp  = Flask(__name__)
 
 @myapp.route('/', methods=['GET'])
 def welcome():
-    return 'Hello world, my name is Luqman, this project is a simple flask app. I am learning how to build CI/CD pipelines with github actions and docker. I hope you find this project useful. There is so much part of this project that can be improved. This is a simple Flask app with rollback functionality (branch improve/v2). This is latest version of the app (want to test rollback mechanism).'
+    return 'Hello world, my name is Luqman, this project is a simple flask app. (Testing purpose) This is version 1.0'
 
 @myapp.route('/health', methods=['GET'])
 def health():
